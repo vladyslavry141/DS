@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <p id="matrix"> Matrix </p>
+    <p id="isolated"> Isolated Verteces </p>
+    <p id="degree"> Degrees </p> 
+    <p id="leaf"> Leaf Verteces </p>
+    <p id="reg"> Regular Graph </p>
+     <div id="stage"> 
+      <canvas id="lay01" width="500" height="500" style="position: absolute; left: 0; top: 0; z-index: 1; background-color: transparent;">
+      </canvas> 
+      <canvas id="lay02" width="500" height="500" style="position: absolute; left: 0; top: 0; z-index: 2; background-color: transparent;">
+      </canvas>
+    </div>
+<style>
+  #stage {
+    width: 500px;
+    height: 500px;
+    position: relative;
+    border: 2px solid black;
+  }
+  #matrix {
+    position: absolute;
+    left: 550px;    
+  }
+  #isolated {
+    position: absolute;
+    left: 550px;
+    top: 300px;    
+  }
+  #leaf {
+    position: absolute;
+    left: 780px;
+    top: 300px;
+  }
+  #reg {
+    position: absolute;
+    left: 990px;
+    top: 300px;
+  }
+  #degree {
+    position: absolute;
+    left: 550px;
+    top: 375px;    
+  }
+  canvas { position: absolute; }
+  #lay01 { z-index: 1; }
+  #lay02 { z-index: 0; }
+</style>
+    <button id="nonSym"> draw graph </button>
+    <button id="sym"> draw symetric graph </button>
+    <script type="text/javascript" src="./canvas.js"></script>
+  </body>
+</html>
