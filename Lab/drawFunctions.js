@@ -1,19 +1,4 @@
 'use strict';
-const canvas1 = document.getElementById('lay01');
-const ctx1 = canvas1.getContext('2d');
-const canvas2 = document.getElementById('lay02');
-const ctx2 = canvas2.getContext('2d');
-const sym = document.getElementById('sym');
-const nonSym = document.getElementById('nonSym');
-const matrix = document.getElementById('matrix');
-const isolated = document.getElementById('isolated');
-const deg = document.getElementById('degree');
-const leaf = document.getElementById('leaf');
-const reg = document.getElementById('reg');
-ctx1.strokeStyle = 'blue';
-ctx2.lineWidth = 2.0;
-ctx2.strokeStyle = 'black';
-
 class Vertix {
   constructor(name, x, y) {
     this.name = name;
@@ -44,9 +29,9 @@ class Edge {
 
 let centre = [];
 
-const makeVertices = array => {
+const makeVertices = matr => {
   const vertices = [];
-  const n = array.length;
+  const n = matr.length;
   const num = Math.ceil(n / 4) + 1;
   const ost = (n - 2 * num) / 2;
   const xStart = 100;
@@ -88,10 +73,10 @@ const makeVertices = array => {
   return vertices;
 };
 
-const searchReletions = (array, vertices) => {
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array.length; j++) {
-      if (array[i][j]) {
+const searchReletions = (matr, vertices) => {
+  for (let i = 0; i < matr.length; i++) {
+    for (let j = 0; j < matr.length; j++) {
+      if (matr[i][j]) {
         vertices[i].toEl.push(j);
         vertices[j].fromEl.push(i);
       }
@@ -99,11 +84,11 @@ const searchReletions = (array, vertices) => {
   }
 };
 
-const makeVectors = (array, vertices) => {
+const makeVectors = (matr, vertices) => {
   const vectors = [];
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array.length; j++) {
-      if (array[i][j]) {
+  for (let i = 0; i < matr.length; i++) {
+    for (let j = 0; j < matr.length; j++) {
+      if (matr[i][j]) {
         const name = `${i + 1}_${j + 1}`;
         vectors[name] = (new Edge(name, i, j));
         vectors[name].startPoint = [vertices[i].x, vertices[i].y];
@@ -119,11 +104,11 @@ const makeVectors = (array, vertices) => {
 };
 
 
-const makeEdges = (array, vertices) => {
+const makeEdges = (matr, vertices) => {
   const edges = [];
-  for (let i = 0; i < array.length; i++) {
-    for (let j = i; j < array.length; j++) {
-      if (array[i][j]) {
+  for (let i = 0; i < matr.length; i++) {
+    for (let j = i; j < matr.length; j++) {
+      if (matr[i][j]) {
         const name = `${i + 1}_${j + 1}`;
         edges[name] = (new Edge(name, i, j));
         edges[name].startPoint = [vertices[i].x, vertices[i].y];
@@ -138,13 +123,14 @@ const makeEdges = (array, vertices) => {
   return edges;
 };
 
-const textMartix = (array, del = '__') => {
+const textMartix = (matr, del = '  ') => {
   let mat = '';
-  for (const arr of array) mat += arr.join(del) + '\n';
+  for (const arr of matr) mat += arr.join(del) + '\n';
   return mat;
 };
 
-const drawVertix = (x, y, name, ctx1, ctx2) => {
+const drawVertix = (x, y, name, ctx1, ctx2, color = 'black') => {
+  ctx1.fillStyle = color;
   let pos = 4;
   if (name.length > 1) pos *= name.length;
   ctx1.beginPath();
@@ -174,7 +160,7 @@ const countAngle = (vector1, vector2) => {
 };
 
 
-const makeVector = (edge, ctx1, ctx2) => {
+const drawVector = (edge, ctx1, ctx2) => {
   const xCentre = (edge.startPoint[0] + edge.endPoint[0]) / 2;
   const yCentre = (edge.startPoint[1] + edge.endPoint[1]) / 2;
   let vector1 = getVector(...edge.startPoint, ...edge.endPoint);
@@ -244,7 +230,7 @@ const loop = (edge, ctx1, ctx2) => {
   const vector1 = getVector(...edge.startPoint, ...centre);
   const vector2 = [1, 0];
   const vector1L = vectorLength(vector1);
-  const r = 20;
+  const r = 13;
   const angle = vector1[1] < 0 ?
     (countAngle(getVector(...centre, ...edge.startPoint), vector2)) + Math.PI :
     countAngle(vector1, vector2);
@@ -299,17 +285,17 @@ const drawVectors = (edges, ctx1, ctx2) => {
   for (const name in edges) {
     const edge = edges[name];
     if (edge.loop) loop(edge, ctx1, ctx2);
-    else makeVector(edge, ctx1, ctx2);
+    else drawVector(edge, ctx1, ctx2);
   }
 };
 
-const makeSymMatrix = array => {
+const makeSymMatrix = matr => {
   const sym = [];
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array.length; j++) {
+  for (let i = 0; i < matr.length; i++) {
+    for (let j = 0; j < matr.length; j++) {
       if (!sym[i]) sym[i] = [];
       if (!sym[j]) sym[j] = [];
-      if (array[i][j] || sym[i][j]) {
+      if (matr[i][j] || sym[i][j]) {
         sym[i][j] = 1;
         sym[j][i] = 1;
       } else sym[i][j] = 0;
@@ -411,56 +397,35 @@ const textDegreesSym = vertices => {
   return textD;
 };
 
-// let array =  [
-//   [ 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1 ] ,
-//   [ 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0 ] ,
-//   [ 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 ] ,
-//   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0 ] ,
-//   [ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] ,
-//   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ,
-//   [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 ] ,
-//   [ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 ] ,
-//   [ 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0 ] ,
-//   [ 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0 ] ,
-//   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ,
-//   [ 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0 ]
-// ];
-
-const array = [
-  [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, ],
-  [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, ],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-  [0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, ],
-  [0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, ],
-  [0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, ],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, ],
-  [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, ],
-  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, ],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-  [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, ],
-  [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, ],
-];
-
-
-const symMatrix = makeSymMatrix(array);
-
-  // const isolatedV = findIsolateVertex(vertices);
-  // const leafV = findLeafVertex(vertices);
-  // const isR = isRegular(vertices);
-const drawGraph = (array, ctx1, ctx2, matrixText, degreeText) => {
+const drawGraph = (matr, ctx1, ctx2, matrixText) => {
   ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
   ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-  const vertices = makeVertices(array);
-  searchReletions(array, vertices);
-  const vectors = makeVectors(array, vertices);
+  const vertices = makeVertices(matr);
+  searchReletions(matr, vertices);
+  const vectors = makeVectors(matr, vertices);
   drawVectors(vectors, ctx1, ctx2);
   drawVertices(vertices, ctx1, ctx2);
-  matrixText.innerText = 'Matrix\n' + textMartix(array);
+  matrixText.innerText = 'Matrix\n' + textMartix(matr);
+};
+
+const drawGrWithoutClean = (matr, ctx1, ctx2, matrixText) => {
+  const vertices = makeVertices(matr);
+  searchReletions(matr, vertices);
+  const vectors = makeVectors(matr, vertices);
+  drawVectors(vectors, ctx1, ctx2);
+  drawVertices(vertices, ctx1, ctx2);
+  matrixText.innerText = 'Matrix\n' + textMartix(matr);
+};
+
+
+const printDeegre = (matr, degreeText) => {
+  const vertices = makeVertices(matr);
+  searchReletions(matr, vertices);
   degreeText.innerText = 'Degrees:\n' + textDegrees(vertices).join('\n');
 };
 
-const drawSymGraph = (array, ctx1, ctx2, matrixText, degreeText) => {
-  const symMatrix = makeSymMatrix(array);
+const drawSymGraph = (matr, ctx1, ctx2, matrixText, degreeText) => {
+  const symMatrix = makeSymMatrix(matr);
   ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
   ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
   const vertices = makeVertices(symMatrix);
@@ -472,8 +437,3 @@ const drawSymGraph = (array, ctx1, ctx2, matrixText, degreeText) => {
   degreeText.innerText = 'Degrees:\n' + textDegreesSym(vertices).join('\n');
 };
 
-const graphButton = () => drawGraph(array, ctx1, ctx2, matrix, deg)
-const symGraphButton = () => drawSymGraph(array, ctx1, ctx2, matrix, deg);
-
-nonSym.addEventListener('click', graphButton);
-sym.addEventListener('click', symGraphButton);

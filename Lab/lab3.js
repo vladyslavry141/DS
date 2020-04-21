@@ -91,7 +91,6 @@ const reachabilityMatr = matr => {
   const len = matr.length;
   let res = sumMatrix(matr, powerMatrix(matr, 2));
   for (let i = 3; i < len; i++) {
-    console.log(i);
     res = sumMatrix(res, powerMatrix(matr, i));
   }
   return toBoolMatrix(oneDiagonal(res));
@@ -184,7 +183,6 @@ const findAllWays2 = (matr, indexWays3) => {
   let ways = [];
   const len = matr.length;
   const waysMatr2 = showWaysNlength(matr, 2);
-  console.table(waysMatr2);
   for (let i = 0; i < len; i++) {
     for (let j = 0; j < len; j++) {
       if (waysMatr2[i][j]) {
@@ -209,7 +207,6 @@ const findAllWays3 = matr => {
   let ways = [];
   const len = matr.length;
   const waysMatr3 = showWaysNlength(matr, 3);
-  console.table(waysMatr3);
   for (let i = 0; i < len; i++) {
     for (let j = 0; j < len; j++) {
       if (waysMatr3[i][j]) {
@@ -226,12 +223,7 @@ const toHumanRead = arr => {
       el[i] = el[i] + 1;
     }
   }
-};
-
-const getComponents = matr => {
-  const strongConnecM = makeStrongConnectM(matr);
-  const groups = findIndenticalArr(strongConnecM);
-  return groups;  
+  return arr;
 };
 
 const makeStrongConnectM = matr => {
@@ -261,20 +253,22 @@ const makeCondMatr = matr => {
   return cond;
 };
 
-console.table(makeCondMatr(array1));
-// console.table(nreachabilityMatr(array1));
-// console.table(reachabilityMatr(array1));
-// const array1 = [
-//   [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, ],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, ],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-//   [0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, ],
-//   [0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, ],
-//   [0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, ],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, ],
-//   [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, ],
-//   [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, ],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
-//   [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, ],
-//   [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, ],
-// ];
+const getTextComponents = matr => {
+  const strongConnecM = makeStrongConnectM(matr);
+  const groups = findIndenticalArr(strongConnecM);
+  const humGroups = toHumanRead(groups);
+  let text = 'Components:\n';
+  for (let i = 0; i < humGroups.length; i++) {
+    text += `${i + 1} - {${humGroups[i].join(', ')}}\n`;
+  }
+  return text;  
+};
+
+const getTextWays = ways => {
+  console.log(ways);
+  const arr = ways.map(el => `[${el.join(',')}],`);
+  for (let i = 7; i < arr.length; i += 8) {
+    arr[i] += '\n';
+  }
+  return arr.join('  ');
+}
