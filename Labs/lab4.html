@@ -3,7 +3,6 @@
   <body>
     <p id="matrix"> Matrix </p>
     <p id="degree"> Degrees </p> 
-    <p id="components"> </p>
      <div id="stage"> 
       <canvas id="lay01" width="500" height="500" style="position: absolute; left: 0; top: 0; z-index: 1; background-color: transparent;">
       </canvas> 
@@ -25,22 +24,21 @@
     position: absolute;
     left: 950px;
   }
-  #components {
-    position: absolute;
-    left: 570px;
-    top: 320px;
-  }  
   canvas { position: absolute; }
   #lay01 { z-index: 1; }
   #lay02 { z-index: 0; }
 </style>
+<form name="myForm">
+    <input type="checkbox" name="enabled" checked><span>Show all path ?</span>
+</form>
+<div id="printBlock"></div>
     <button id="nonSym"> draw graph </button>
-    <button id="condGraph"> draw graph of condensation </button>
-    <button id="ways2"> Ways2 </button>
-    <button id="ways3"> Ways3 </button>
+    <button id="tree"> draw tree </button>
+    <button id="nextG"> Next for Graph </button>
+    <button id="nextT"> Next for tree </button>
     <script type="text/javascript" src="./MatrixForLabs.js"></script>
     <script type="text/javascript" src="./drawFunctions.js"></script>
-    <script type="text/javascript" src="./lab3.js"></script>
-    <script type="text/javascript" src="./mainLab3.js"></script>
+    <script type="text/javascript" src="./lab4.js"></script>
+    <script type="text/javascript" src="./mainLab4.js"></script>
   </body>
 </html>
