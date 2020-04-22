@@ -12,7 +12,7 @@ const deg = document.getElementById('degree');
 const enabledBox = document.myForm.enabled;
 const matr = Lab4;
 
-let start = 7;
+let start = 0;
 let num = 0;
 let massage = 'You reached the end';
 
@@ -20,20 +20,25 @@ const vertices = makeVertices(matr);
 searchReletions(matr, vertices);
 const vectors = makeVectors(matr, vertices);
 const pathA = DepthFirstSearch(matr, start);
-const pathB = getDFSWithoutBack(pathA);
 const pathObjA = pathA.map(el => `${el[0] + 1}_${el[1] + 1}`);
+const openVerticesA = findOpenVerticesA(matr, start);
+const pathB = getDFSWithoutBack(pathA);
 const pathObjB = pathB.map(el => `${el[0] + 1}_${el[1] + 1}`);
+const openVerticesB = findOpenVertices(matr, start);
 let path = pathB;
 let pathObj = pathObjB;
+let openVertices = openVerticesB;
 const numericArray = getNumericArray(matr, start);
 const numericMatrix = getNumericMatrix(matr, start);  
 const treeMatrix = getTreeMatrix(matr, path);
+
 deg.innerText = 'The vertex correspondence matrix:\n' + matrixToText(numericMatrix);
 
 const isFullpath = (e) => {
   i = 0;
   let enabled = e.target.checked;
   pathObj = enabled ? pathObjA : pathObjB;
+  openVertices = enabled ? openVerticesA : openVerticesB;
   massage = enabled ? 'You reached the start' : 'You reached the end';
   path = enabled ? pathA : pathB;  
   printBlock.textContent = enabled;
@@ -65,6 +70,7 @@ const treeButton = () => {
   num = 0;
 }
 
+
 const nextClick = (matr) => {
   ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
   ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
@@ -75,10 +81,12 @@ const nextClick = (matr) => {
   ctx1.strokeStyle = 'blue';
   ctx2.lineWidth = 2.0;
   ctx1.lineWidth = 1.0;
-  drawGrWithoutClean(matr, ctx1, ctx2, matrix)
-  const from = path[num][0];
+  drawGrWithoutClean(matr, ctx1, ctx2, matrix);
+  for (let i = 0; i < openVertices[num].length; i++) {
+    const vertice =  openVertices[num][i];
+    drawVertix(vertices[vertice].x, vertices[vertice].y, vertices[vertice].name, ctx1, ctx2, 'green')
+  }
   const goTo = path[num][1];
-  drawVertix(vertices[from].x, vertices[from].y, vertices[from].name, ctx1, ctx2, 'green')
   drawVertix(vertices[goTo].x, vertices[goTo].y, vertices[goTo].name, ctx1, ctx2, 'blue')
   num++;
   showAllNumeric(matr, vertices, numericArray);
@@ -87,7 +95,6 @@ const nextClick = (matr) => {
     alert(massage);
   };
 }
-
 
 enabledBox.addEventListener("click", isFullpath);
 nonSym.addEventListener('click', graphButton);
