@@ -18,8 +18,9 @@ const condMatr = makeCondMatr(matr);
 const comp = getTextComponents(matr);
 const reachMatrix = reachabilityMatr(matr);
 const strongConMat = makeStrongConnectM(matr);
-const ways2Arr = findAllWays2(matr);
-const ways3Arr = findAllWays3(matr);
+const ways2Arr = toHumanRead(findAllWays2(matr));
+const ways3Arr = toHumanRead(findAllWays3(matr));
+
 const condGraphButton = () => {
   drawGraph(condMatr, ctx1, ctx2, matrix)
   deg.innerText = comp;
@@ -33,7 +34,7 @@ const graphButton = () => {
 const ways3Button = () => {
   matrix.innerText = 'Strong Conectivity Matrix\n' + matrixToText(strongConMat);
   deg.innerText = 'Reachability Matrix\n' + matrixToText(reachMatrix);
-  components.innerText = 'Ways3:\n' + getTextWays(ways3Arr);
+  components.innerText = 'Ways3:\n' + getTextWays((ways3Arr));
 }
 
 const ways2Button = () => {
