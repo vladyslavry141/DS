@@ -39,6 +39,17 @@ const getDFSWithoutBack = path => {
   return res;
 }
 
+const getNumericArray = (matr, start) => {
+  const path = DepthFirstSearch(matr, start);
+  const pathWB = getDFSWithoutBack(path);
+  const res = [start];
+    for (let i = 1; i < matr.length; i++) {
+    const index = pathWB[i - 1][1];
+    res[i] = index;
+  }
+  return res;
+};
+
 const getNumericMatrix = (matr, start) => {
   const path = DepthFirstSearch(matr, start);
   const pathWB = getDFSWithoutBack(path);
@@ -49,7 +60,6 @@ const getNumericMatrix = (matr, start) => {
   res[0][start] = 1
   for (let i = 1; i < matr.length; i++) {
     const index = pathWB[i - 1][1];
-    // console.dir({i: i - 1, path: path[i - 1],  index})
     res[i][index] = 1;
   }
   return res;

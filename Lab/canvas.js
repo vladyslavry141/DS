@@ -138,7 +138,7 @@ const makeEdges = (array, vertices) => {
   return edges;
 };
 
-const textMartix = (array, del = '__') => {
+const matrixToText = (array, del = '__') => {
   let mat = '';
   for (const arr of array) mat += arr.join(del) + '\n';
   return mat;
@@ -455,7 +455,7 @@ const drawGraph = (array, ctx1, ctx2, matrixText, degreeText) => {
   const vectors = makeVectors(array, vertices);
   drawVectors(vectors, ctx1, ctx2);
   drawVertices(vertices, ctx1, ctx2);
-  matrixText.innerText = 'Matrix\n' + textMartix(array);
+  matrixText.innerText = 'Matrix\n' + matrixToText(array);
   degreeText.innerText = 'Degrees:\n' + textDegrees(vertices).join('\n');
 };
 
@@ -468,7 +468,7 @@ const drawSymGraph = (array, ctx1, ctx2, matrixText, degreeText) => {
   const edges = makeEdges(symMatrix, vertices);
   drawEdges(edges, ctx1, ctx2);
   drawVertices(vertices, ctx1, ctx2);
-  matrixText.innerText = 'Symetric Matrix\n' + textMartix(symMatrix);
+  matrixText.innerText = 'Symetric Matrix\n' + matrixToText(symMatrix);
   degreeText.innerText = 'Degrees:\n' + textDegreesSym(vertices).join('\n');
 };
 

@@ -12,7 +12,7 @@ const deg = document.getElementById('degree');
 const enabledBox = document.myForm.enabled;
 const matr = Lab4;
 
-let start = 0;
+let start = 7;
 let num = 0;
 let massage = 'You reached the end';
 
@@ -25,25 +25,11 @@ const pathObjA = pathA.map(el => `${el[0] + 1}_${el[1] + 1}`);
 const pathObjB = pathB.map(el => `${el[0] + 1}_${el[1] + 1}`);
 let path = pathB;
 let pathObj = pathObjB;
+const numericArray = getNumericArray(matr, start);
 const numericMatrix = getNumericMatrix(matr, start);  
 const treeMatrix = getTreeMatrix(matr, path);
-deg.innerText = 'The vertex correspondence matrix:\n' + textMartix(numericMatrix);
+deg.innerText = 'The vertex correspondence matrix:\n' + matrixToText(numericMatrix);
 
-const graphButton = () => {
-  ctx1.strokeStyle = 'blue';
-  ctx2.lineWidth = 2.0;
-  ctx2.strokeStyle = 'black';
-  drawGraph(matr, ctx1, ctx2, matrix);
-  num = 0;
-};
-
-const treeButton = () => {
-  ctx1.strokeStyle = 'blue';
-  ctx2.lineWidth = 2.0;
-  ctx2.strokeStyle = 'black';
-  drawGraph(treeMatrix, ctx1, ctx2, matrix);
-  num = 0;
-}
 const isFullpath = (e) => {
   i = 0;
   let enabled = e.target.checked;
@@ -53,6 +39,31 @@ const isFullpath = (e) => {
   printBlock.textContent = enabled;
 }
 
+const showAllNumeric = (matr, vertices, numericArray) => {
+  for (let i = 0; i < matr.length; i++) {
+  const num = numericArray[i];
+  const vertex = vertices[num];
+  showName(vertex.x + 12, vertex.y, i + 1, ctx1, ctx2, 'rgb(0, 204, 255)', 'black', ('10px serif'))
+  }  
+}
+
+const graphButton = () => {
+  ctx1.strokeStyle = 'blue';
+  ctx2.lineWidth = 2.0;
+  ctx2.strokeStyle = 'black';
+  drawGraph(matr, ctx1, ctx2, matrix);    
+  showAllNumeric(matr, vertices, numericArray);
+  num = 0;
+};
+
+const treeButton = () => {
+  ctx1.strokeStyle = 'blue';
+  ctx2.lineWidth = 2.0;
+  ctx2.strokeStyle = 'black';
+  drawGraph(treeMatrix, ctx1, ctx2, matrix);
+  showAllNumeric(matr, vertices, numericArray);
+  num = 0;
+}
 
 const nextClick = (matr) => {
   ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
@@ -67,22 +78,17 @@ const nextClick = (matr) => {
   drawGrWithoutClean(matr, ctx1, ctx2, matrix)
   const from = path[num][0];
   const goTo = path[num][1];
-  ctx1.fillStyle = 'white';
-  console.log(vertices[from]);
-  ctx1.beginPath();
-  ctx1.arc(vertices[from].x, vertices[from].y, 15, 0, Math.PI * 2);
-  ctx1.fill();
-  ctx1.beginPath();
-  ctx1.arc(vertices[goTo].x, vertices[goTo].y, 15, 0, Math.PI * 2);
-  ctx1.fill();
   drawVertix(vertices[from].x, vertices[from].y, vertices[from].name, ctx1, ctx2, 'green')
   drawVertix(vertices[goTo].x, vertices[goTo].y, vertices[goTo].name, ctx1, ctx2, 'blue')
   num++;
+  showAllNumeric(matr, vertices, numericArray);
   if (num === pathObj.length) {
     num = 0;
     alert(massage);
   };
 }
+
+
 enabledBox.addEventListener("click", isFullpath);
 nonSym.addEventListener('click', graphButton);
 tree.addEventListener('click', treeButton);

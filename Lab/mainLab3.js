@@ -31,14 +31,14 @@ const graphButton = () => {
 };
 
 const ways3Button = () => {
-  matrix.innerText = 'Strong Conectivity Matrix\n' + textMartix(strongConMat);
-  deg.innerText = 'Reachability Matrix\n' + textMartix(reachMatrix);
+  matrix.innerText = 'Strong Conectivity Matrix\n' + matrixToText(strongConMat);
+  deg.innerText = 'Reachability Matrix\n' + matrixToText(reachMatrix);
   components.innerText = 'Ways3:\n' + getTextWays(ways3Arr);
 }
 
 const ways2Button = () => {
-  matrix.innerText = 'Strong Conectivity Matrix\n' + textMartix(strongConMat);
-  deg.innerText = 'Reachability Matrix\n' + textMartix(reachMatrix);
+  matrix.innerText = 'Strong Conectivity Matrix\n' + matrixToText(strongConMat);
+  deg.innerText = 'Reachability Matrix\n' + matrixToText(reachMatrix);
   components.innerText = 'Ways2:\n' + getTextWays(ways2Arr);
 }
 

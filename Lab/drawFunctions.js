@@ -123,22 +123,45 @@ const makeEdges = (matr, vertices) => {
   return edges;
 };
 
-const textMartix = (matr, del = '  ') => {
+const matrixToText = (matr, del = ' -  ') => {
   let mat = '';
   for (const arr of matr) mat += arr.join(del) + '\n';
   return mat;
 };
 
-const drawVertix = (x, y, name, ctx1, ctx2, color = 'black') => {
-  ctx1.fillStyle = color;
-  let pos = 4;
+const showName = (x, y, name, ctx1, ctx2, color, fillStyle = 'black', font = ('12px serif')) =>{
+  ctx1.fillStyle = 'white';
+  const px = font.split(' ')[0];
+  const ind = parseInt(px.slice(0, px.length - 2))
+  let pos = Math.floor(ind / 3);  
+  // let pos = 4;
+  const radius = Math.floor(ind * 3 / 4) 
+  console.log(radius);
   if (name.length > 1) pos *= name.length;
+  ctx1.beginPath();
+  ctx1.arc(x, y, radius, 0, Math.PI * 2);
+  ctx1.fill();
+  if (color) {
+    ctx1.fillStyle = color;
+    ctx1.beginPath();
+    ctx1.arc(x, y, radius, 0, Math.PI * 2);
+    ctx1.fill();}
+  ;
+  ctx1.fillStyle = fillStyle;
+  ctx1.font = font;
+  ctx1.fillText(name, x - pos, y + 4);
+};
+
+const drawVertix = (x, y, name, ctx1, ctx2, color = 'black') => {
+  ctx1.fillStyle = 'white';
   ctx1.beginPath();
   ctx1.arc(x, y, 15, 0, Math.PI * 2);
   ctx1.fill();
-  ctx1.fillStyle = 'white';
-  ctx1.font = ('12px serif');
-  ctx1.fillText(name, x - pos, y + 4);
+  ctx1.fillStyle = color;
+  ctx1.beginPath();
+  ctx1.arc(x, y, 15, 0, Math.PI * 2);
+  ctx1.fill();
+  showName(x, y, name, ctx1, ctx2);
   ctx1.fillStyle = 'black';
 };
 
@@ -405,7 +428,7 @@ const drawGraph = (matr, ctx1, ctx2, matrixText) => {
   const vectors = makeVectors(matr, vertices);
   drawVectors(vectors, ctx1, ctx2);
   drawVertices(vertices, ctx1, ctx2);
-  matrixText.innerText = 'Matrix\n' + textMartix(matr);
+  matrixText.innerText = 'Matrix\n' + matrixToText(matr);
 };
 
 const drawGrWithoutClean = (matr, ctx1, ctx2, matrixText) => {
@@ -414,7 +437,7 @@ const drawGrWithoutClean = (matr, ctx1, ctx2, matrixText) => {
   const vectors = makeVectors(matr, vertices);
   drawVectors(vectors, ctx1, ctx2);
   drawVertices(vertices, ctx1, ctx2);
-  matrixText.innerText = 'Matrix\n' + textMartix(matr);
+  matrixText.innerText = 'Matrix\n' + matrixToText(matr);
 };
 
 
@@ -433,7 +456,7 @@ const drawSymGraph = (matr, ctx1, ctx2, matrixText, degreeText) => {
   const edges = makeEdges(symMatrix, vertices);
   drawEdges(edges, ctx1, ctx2);
   drawVertices(vertices, ctx1, ctx2);
-  matrixText.innerText = 'Symetric Matrix\n' + textMartix(symMatrix);
+  matrixText.innerText = 'Symetric Matrix\n' + matrixToText(symMatrix);
   degreeText.innerText = 'Degrees:\n' + textDegreesSym(vertices).join('\n');
 };
 
