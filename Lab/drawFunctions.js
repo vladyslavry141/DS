@@ -134,9 +134,7 @@ const showName = (x, y, name, ctx1, ctx2, color, fillStyle = 'black', font = ('1
   const px = font.split(' ')[0];
   const ind = parseInt(px.slice(0, px.length - 2))
   let pos = Math.floor(ind / 3);  
-  // let pos = 4;
   const radius = Math.floor(ind * 3 / 4) 
-  console.log(radius);
   if (name.length > 1) pos *= name.length;
   ctx1.beginPath();
   ctx1.arc(x, y, radius, 0, Math.PI * 2);

@@ -58,7 +58,6 @@ const findOpenVertices = (matr, start) => {
   for (let i = 0; i < path.length; i++) {
     const vertice = path[i][1];
     const lastIndex = res.length - 1;
-    console.log(vertice, !res[lastIndex].includes(vertice))
     if (!res[lastIndex].includes(vertice)) {
       const nextStep = res[lastIndex].slice();
       nextStep.push(vertice);
@@ -79,7 +78,6 @@ const findOpenVerticesA = (matr, start) => {
   for (let i = 0; i < path.length; i++) {
     const vertice = path[i][1];
     const lastIndex = res.length - 1;
-    console.log(vertice, !res[lastIndex].includes(vertice))
     if (!res[lastIndex].includes(vertice)) {
       const nextStep = res[lastIndex].slice()
       nextStep.push(vertice);
