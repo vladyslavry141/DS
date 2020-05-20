@@ -12,7 +12,7 @@ const pathToText = path => {
   let text = 'Route\n';
   for (let i = 0; i < path.length; i++) {
     const p = path[i];
-    const textPath = p ? p.join('->') : p;
+    const textPath = p ? p.map(el => el + 1).join('->') : p;
     text += textPath + '\n';
   }
   return text;

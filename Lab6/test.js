@@ -126,5 +126,4 @@ console.table(makeSymMatrix(zeroDiagonal(Lab5)))
 zeroToInf(makeSymMatrix(zeroDiagonal(Lab5)), LabW5);
 console.table(LabW5)
 const res = dejkstraAlg(LabW5, 0);
-// res.forEach(obj => console.log(obj));
-console.log(pathToText(res[1].path))
+res.forEach(obj => console.log(obj));
