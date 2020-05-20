@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <p id="degree"> Degrees </p> 
+    <p id="mark">  </p> 
+    <p id="path">  </p> 
+     <div id="stage"> 
+      <canvas id="lay01" width="700" height="700" style="position: absolute; left: 0; top: 0; z-index: 1; background-color: transparent;">
+      </canvas> 
+      <canvas id="lay02" width="700" height="700" style="position: absolute; left: 0; top: 0; z-index: 2; background-color: transparent;">
+      </canvas>
+    </div>
+<style>
+  #stage {
+    width: 700px;
+    height: 700px;
+    position: relative;
+    border: 2px solid black;
+  }
+  #degree {
+    position: absolute;
+    left: 770px;
+  }
+  #mark {
+    position: absolute;
+    left: 870px;    
+  }
+  #path {
+    position: absolute;
+    left: 950px;
+  }
+  #nonSym {
+    position: absolute;
+    left: 715px;
+    top: 300px;
+  }
+  #startV {
+    position: absolute;
+    left: 715px;
+    top: 350px;
+  }
+  #nextG {
+    position: absolute;
+    left: 715px;
+    top: 400px;
+  }
+  #selectEdge {
+    position: absolute;
+    left: 715px;
+    top: 450px;
+  }
+  canvas { position: absolute; }
+  #lay01 { z-index: 1; }
+  #lay02 { z-index: 0; }
+</style>
+    <button id="nonSym"> draw graph </button>
+    <button id="nextG"> Next step</button>
+    <button id="startV"> Select start vertex </button>    
+    <button id="selectEdge"> Select the edge </button>
+    <script type="text/javascript" src="./MatrixForLabs.js"></script>
+    <script type="text/javascript" src="./drawFunctions.js"></script>
+    <script type="text/javascript" src="./6-lab.js"></script>
+    <script type="text/javascript" src="./mainLab6.js"></script>
+  </body>
+</html>

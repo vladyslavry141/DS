@@ -243,6 +243,7 @@ const makeCondMatr = matr => {
   for (let i = 0; i < len; i++) {
     for (let j = 0; j < len; j++) {
       cond[i][j] = 0;
+      if (i === j) continue;
       for (const fromVer of groups[i]) {
         for (const toVer of groups[j]) {
           if (matr[fromVer][toVer]) cond[i][j] = 1;
